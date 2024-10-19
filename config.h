@@ -21,8 +21,12 @@
 
 // rotary encoder
 #define ENCODER_RESOLUTION 4
-#define ENCODER_A_PINS { ADC0 }
-#define ENCODER_B_PINS { ADC1 }
+#define ENCODER_A_PINS { A0 }
+#define ENCODER_B_PINS { A1 }
+
+// analog joystick
+#define ANALOG_JOYSTICK_X_AXIS_PIN { A4 }
+#define ANALOG_JOYSTICK_Y_AXIS_PIN { A2 }
 
 // SSD1306 OLED display
 #define MY_I2C_ADDRESS (0x3C << 1)
