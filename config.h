@@ -29,6 +29,9 @@
 #define ANALOG_JOYSTICK_Y_AXIS_PIN { A2 }
 
 // SSD1306 OLED display
+#define I2C_DRIVER I2CD1
+#define I2C1_SDA_PIN { GP20 }
+#define I2C1_SCL_PIN { GP21 }
 #define MY_I2C_ADDRESS (0x3C << 1)
 #ifdef OLED_ENABLE
   #define OLED_DISPLAY_128X64

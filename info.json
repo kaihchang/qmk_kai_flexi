@@ -20,7 +20,7 @@
     },
     "encoder": {
         "rotary": [
-            {"pin_a": "A0", "pin_b": "A1"}
+            {"pin_a": "GP26", "pin_b": "GP27"}
         ]
     },
     "processor": "RP2040",

@@ -31,8 +31,8 @@ static uint16_t auto_pointer_layer_timer = 0;
 #endif     // AUTO_POINTER_LAYER_TRIGGER_ENABLE
 
 joystick_config_t joystick_axes[JOYSTICK_AXIS_COUNT] = {
-    JOYSTICK_AXIS_IN(A4, 900, 575, 285), // JOYSTICK_AXIS_IN(input_pin, low, rest, high)
-    JOYSTICK_AXIS_IN(A2, 900, 575, 285)
+    JOYSTICK_AXIS_IN(ADC4, 900, 575, 285), // JOYSTICK_AXIS_IN(input_pin, low, rest, high)
+    JOYSTICK_AXIS_IN(ADC2, 900, 575, 285)
 };
 
 #if defined(ENCODER_MAP_ENABLE)
