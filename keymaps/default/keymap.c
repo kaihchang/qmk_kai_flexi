@@ -19,22 +19,6 @@ enum custom_keycodes {
 // Automatically enable sniping-mode on the pointer layer.
 #define AUTO_SNIPING_ON_LAYER LAYER_POINTER
 
-#ifdef AUTO_POINTER_LAYER_TRIGGER_ENABLE
-static uint16_t auto_pointer_layer_timer = 0;
-#    ifndef AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
-#        define AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS 1000
-#    endif // AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
-
-#    ifndef AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
-#        define AUTO_POINTER_LAYER_TRIGGER_THRESHOLD 8
-#    endif // AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
-#endif     // AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
-joystick_config_t joystick_axes[JOYSTICK_AXIS_COUNT] = {
-    JOYSTICK_AXIS_IN(GP29, 900, 575, 285), // JOYSTICK_AXIS_IN(input_pin, low, rest, high)
-    JOYSTICK_AXIS_IN(GP28, 900, 575, 285)
-};
-
 #if defined(ENCODER_MAP_ENABLE)
 #define ENCODER_MAP_KEY_DELAY 10
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
