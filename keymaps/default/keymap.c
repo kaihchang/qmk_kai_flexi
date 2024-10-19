@@ -30,6 +30,11 @@ static uint16_t auto_pointer_layer_timer = 0;
 #    endif // AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
 #endif     // AUTO_POINTER_LAYER_TRIGGER_ENABLE
 
+joystick_config_t joystick_axes[JOYSTICK_AXIS_COUNT] = {
+    JOYSTICK_AXIS_IN(ADC4, 900, 575, 285), // JOYSTICK_AXIS_IN(input_pin, low, rest, high)
+    JOYSTICK_AXIS_IN(ADC2, 900, 575, 285)
+};
+
 #if defined(ENCODER_MAP_ENABLE)
 #define ENCODER_MAP_KEY_DELAY 10
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
