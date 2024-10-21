@@ -7,23 +7,17 @@
 #    include "timer.h"
 #endif // AUTO_POINTER_LAYER_TRIGGER_ENABLE
 
-enum custom_keycodes {
-  LAYER_QWERTY = 0,
-  LAYER_NUMBER,
-  LAYER_SYMBOL,
-  LAYER_NAVI,
-  LAYER_POINTER,
-  LAYER_GAMING
-};
-
-// Tapdance declarations
 enum {
-    TH_COMM = SAFE_RANGE,
-    TH_DOT,
-    MC_CNQ,
-    MC_SEL_SEN
+  // Tapdance declarations
+  TH_COMM,
+  TH_DOT
 };
 
+enum custom_keycodes {
+  // Marco declarations
+  MC_CNQ = SAFE_RANGE,
+  MC_SEL_SEN
+};
 typedef struct {
     uint16_t tap;
     uint16_t hold;
@@ -51,7 +45,7 @@ combo_t key_combos[] = {
     COMBO(combo_backspace, KC_BSPC),
     COMBO(combo_delete, KC_DEL),
     COMBO(combo_enter, KC_ENT),
-    COMBO(combo_sel_en, MC_SEL_SEN),
+    COMBO(combo_sel_sen, MC_SEL_SEN),
     COMBO(combo_tg_num, TG(1)),
     COMBO(combo_tg_nav, TG(3)),
     COMBO(combo_tg_game, TG(5)),
@@ -59,44 +53,34 @@ combo_t key_combos[] = {
 
 // Macros
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    tap_dance_action_t *action;
     switch (keycode) {
         case MC_CNQ: // output 「」
             if (record->event.pressed) {
-                // when keycode MC_CNQ is pressed
-                SEND_STRING("「」" SS_TAP(KC_LEFT));
-            } else {
-                // when keycode MC_CNQ is released
+                SEND_STRING(SS_TAP(X_GRV) SS_TAP(X_LBRC) SS_TAP(X_GRV) SS_TAP(X_RBRC) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_DOWN) SS_TAP(X_DOWN));
             }
-            break;
+            return true; // Skip all further processing of this key
         case MC_SEL_SEN: // select the whole sentence
             if (record->event.pressed) {
-                // when keycode MC_SEL_SEN is pressed
-                SEND_STRING(SS_TAP(KC_HOME) SS_LSFT(KC_END));
-            } else {
-                // when keycode MC_SEL_SEN is released
+                SEND_STRING(SS_TAP(X_HOME) SS_LSFT(SS_TAP(X_END)));
             }
-            break;
-        // case TD(TH_COMM):
-        // case TD(TH_DOT):
+            return true; // Skip all further processing of this key
+        default:
+            return true; // Process all other keycodes normally
     }
-    return true;
 };
 
 // Automatically enable sniping-mode on the pointer layer.
 #define AUTO_SNIPING_ON_LAYER LAYER_POINTER
 
-#if defined (ENCODER_ENABLE) && (ENCODER_MAP_ENABLE)
 #define ENCODER_MAP_KEY_DELAY 10
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [LAYER_QWERTY]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [LAYER_NUMBER]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [LAYER_SYMBOL]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [LAYER_NAVI]    = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [LAYER_POINTER] = { ENCODER_CCW_CW(MS_WHLD, MS_WHLU) },
-    [LAYER_GAMING]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
+    [0] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [1] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [2] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [3] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [4] = { ENCODER_CCW_CW(MS_WHLD, MS_WHLU) },
+    [5] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
 };
-#endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* LAYER_QWERTY 0: default layer
@@ -112,52 +96,52 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * │   │   │SPC│NUM│PAU|BSC|SYM|DEL|   |   |
      * └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
      */
-    [LAYER_QWERTY] = LAYOUT(
+    [0] = LAYOUT (
         KC_1,         KC_2,         KC_3,         KC_4,         KC_5,    KC_6,    KC_7,         KC_8,         KC_9,         KC_0,
         KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,    KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,
-        LGUI_T(KC_A), LALT_T(KC_S), LCTL_T(KC_S), LSFT_T(KC_F), KC_G,    KC_H,    RSFT_T(KC_J), RCTL_T(KC_K), RATL_T(KC_L), RGUI_T(KC_QUOTE),
+        LGUI_T(KC_A), LALT_T(KC_S), LCTL_T(KC_S), LSFT_T(KC_F), KC_G,    KC_H,    RSFT_T(KC_J), RCTL_T(KC_K), RALT_T(KC_L), RGUI_T(KC_QUOTE),
         KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,    KC_N,    KC_M,         TD(TH_COMM),  TD(TH_DOT),   KC_SLASH,
                                     LT(3,KC_SPC), KC_LSFT,      KC_MPLY, KC_BSPC, LT(1,KC_ENT), LT(2,KC_DEL)
     ),
-
-    [LAYER_NUMBER] = LAYOUT(
+    // LAYER_NUM 1
+    [1] = LAYOUT (
         _______, _______, _______, _______, _______,  _______,       _______,       _______,       _______,       _______,
-        KC_BSPC, KC_7,    KC_8,    KC_9,    KC_EQUAL, KC_BTN4,       KC_BTN5,       KC_VOLU,       MS_VOLD,       MS_MPLY,
-        KC_PAST, KC_4,    KC_5,    KC_6,    KC_MNS,   _______,       OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI),
+        KC_BSPC, KC_7,    KC_8,    KC_9,    KC_EQUAL, KC_BTN4,       KC_BTN5,       KC_VOLU,       KC_VOLD,       KC_MPLY,
+        KC_PAST, KC_4,    KC_5,    KC_6,    KC_PMNS,   _______,       OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI),
         KC_PSLS, KC_1,    KC_2,    KC_3,    KC_PPLS,  LALT(KC_PGUP), LALT(KC_PGDN), LSG(KC_S),     LALT(KC_F4),   (KC_TAB),
                           KC_0,    KC_PDOT, KC_MPLY,  TO(0),         _______,       LGUI(KC_TAB)
     ),
-
-    [LAYER_SYMBOL] = LAYOUT(
+    // LAYER_SYMBOL 2
+    [2] = LAYOUT (
         _______, _______, _______, _______, _______,          _______,      _______,        _______,    _______,       _______,
-        KC_GRV,  KC_LBRC, KC_LPRN, KC_LCBR, LCTL(KC_EXLM),    LSHT(KC_GRV), LSHT(KC_BSLS),  LSHT(KC_7), MC_CNQ,        KC_EQL,
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,          KC_MINS,      LSHT(KC_COMMA), LSHT(KC_6), LSHT(KC_DOT),  LSHT(KC_8),
-        KC_BSLS, KC_RBRC, KC_RPRN, KC_RCBR, LCTL(KC_QUES),    LSHT(KC_EQL), LSHT(KC_MINS),  KC_SCLN,    LSHT(KC_SCLN), LSHT(KC_SLSH),
-                          _______, _______, _______,          TO(0),        _______,        _______,
+        KC_GRV,  KC_LBRC, KC_LPRN, KC_LCBR, LCTL(KC_EXLM),    LSFT(KC_GRV), LSFT(KC_BSLS),  LSFT(KC_7), MC_CNQ,        KC_EQL,
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,          KC_MINS,      LSFT(KC_COMMA), LSFT(KC_6), LSFT(KC_DOT),  LSFT(KC_8),
+        KC_BSLS, KC_RBRC, KC_RPRN, KC_RCBR, LCTL(KC_QUES),    LSFT(KC_EQL), LSFT(KC_MINS),  KC_SCLN,    LSFT(KC_SCLN), LSFT(KC_SLSH),
+                          _______, _______, _______,          TO(0),        _______,        _______
     ),
-
-    [LAYER_NAVI] = LAYOUT(
+    // LAYER_NAVI 3
+    [3] = LAYOUT (
         _______, _______, _______, _______,       _______,       _______, _______, _______, _______, _______,
-        MS_MPLY, MS_VOLD, MS_VOLU, KC_BTN4,       KC_BTN5,       KC_F11,  KC_F12,  _______, _______, _______,
+        KC_MPLY, KC_VOLD, KC_VOLU, KC_BTN4,       KC_BTN5,       KC_F11,  KC_F12,  _______, _______, _______,
         KC_HOME, KC_LEFT, KC_UP,   KC_RGHT,       KC_END,        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
         KC_PGDN, KC_PGUP, KC_DOWN, LALT(KC_PGUP), LALT(KC_PGDN), KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,
-                          _______, _______,       _______,       TO(0),   _______, _______,
+                          _______, _______,       _______,       TO(0),   _______, _______
     ),
-
-    [LAYER_POINTER] = LAYOUT(
-        _______, _______, _______, _______, _______,          _______,      _______,        _______,    _______,       _______,
-        KC_Q, KC_W, KC_E,    KC_R,   KC_T,    KC_Y,    KC_U,   KC_I,     KC_O,   KC_P,
-        KC_A, KC_S, MS_BTN1,    MS_BTN2,   KC_G,    KC_H,    KC_J,   KC_K,     KC_L,   KC_QUOTE,
-        KC_Z, KC_X, KC_C,    KC_V,   KC_B,    KC_N,    KC_M,   KC_COMMA, KC_DOT, KC_SLASH,
-                    LT(3,KC_SPC), TO(0), KC_MPLY, KC_BSPC, KC_LSFT, KC_DEL
+    // LAYER_POINTER 4
+    [4] = LAYOUT(
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, KC_BTN1, KC_BTN2, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+                          _______, _______, KC_BTN3, TO(0),   _______, _______
     ),
-
-    [LAYER_GAMING] = LAYOUT(
+    // LAYER_GAMING
+    [5] = LAYOUT(
         _______, _______, _______, _______, KC_T,   _______, _______, _______, _______, _______,
         KC_Q,    KC_W,    KC_C,    KC_E,    KC_R,   _______, _______, _______, _______, _______,
         KC_TAB,  KC_A,    KC_W,    KC_D,    KC_G,   _______, _______, _______, _______, _______,
         KC_Z,    KC_X,    KC_S,    KC_V,    KC_B,   _______, _______, _______, _______, _______,
-                          KC_SPC,  KC_LSHT, KC_ESC, TO(0),   KC_F12,  _______
+                          KC_SPC,  KC_LSFT, KC_ESC, TO(0),   KC_F12,  _______
     )
 };
 
@@ -196,7 +180,10 @@ void tap_dance_tap_hold_reset(tap_dance_state_t *state, void *user_data) {
 }
 
 #define ACTION_TAP_DANCE_TAP_HOLD(tap, hold) \
-    { .fn = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset}, .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0}), }
+    {
+        .fn = {NULL, tap_dance_tap_hold_finished, tap_dance_tap_hold_reset},
+        .user_data = (void *)&((tap_dance_tap_hold_t){tap, hold, 0})
+    }
 
 tap_dance_action_t tap_dance_actions[] = {
     [TH_COMM] = ACTION_TAP_DANCE_TAP_HOLD(KC_COMM, LCA(KC_COMM)),
