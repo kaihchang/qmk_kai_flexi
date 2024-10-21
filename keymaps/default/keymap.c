@@ -1,6 +1,7 @@
 // Copyright 2023 QMK
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "keymap_introspection.h"
 #include QMK_KEYBOARD_H
 
 #ifdef AUTO_POINTER_LAYER_TRIGGER_ENABLE
