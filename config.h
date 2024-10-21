@@ -17,8 +17,8 @@
 
 // rotary encoder
 #define ENCODER_RESOLUTION 4
-#define ENCODER_A_PINS GP26
-#define ENCODER_B_PINS GP27
+#define ENCODER_A_PINS { GP26 }
+#define ENCODER_B_PINS { GP27 }
 #define TAP_CODE_DELAY 10
 
 // analog joystick
