@@ -22,12 +22,12 @@
 #define TAP_CODE_DELAY 10
 
 // analog joystick
-#define ANALOG_JOYSTICK_X_AXIS_PIN GP29
-#define ANALOG_JOYSTICK_Y_AXIS_PIN GP28
-#define JOYSTICK_AXIS_COUNT 2
+#define ANALOG_JOYSTICK_X_AXIS_PIN GP28
+#define ANALOG_JOYSTICK_Y_AXIS_PIN GP29
 #define ANALOG_JOYSTICK_AUTO_AXIS
-#define ANALOG_JOYSTICK_READ_INTERVAL 1
-#define POINTING_DEVICE_DEBUG
+#define ANALOG_JOYSTICK_SPEED_REGULATOR 20 // lower makes it go faster
+#define ANALOG_JOYSTICK_READ_INTERVAL 10
+#define ANALOG_JOYSTICK_SPEED_MAX 2
 
 // Set the mouse settings to a comfortable speed/accuracy trade-off,
 // assuming a screen refresh rate of 60 Htz or higher
