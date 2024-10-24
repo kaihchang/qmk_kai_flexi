@@ -4,10 +4,6 @@
 #include "keymap_introspection.h"
 #include QMK_KEYBOARD_H
 
-#ifdef AUTO_POINTER_LAYER_TRIGGER_ENABLE
-#    include "timer.h"
-#endif // AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
 enum { // Tapdance declarations
   TapHold_COMMA,
   TapHold_DOT
@@ -119,8 +115,10 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) { // for OS
     return;
 }
 
-// Automatically enable sniping-mode on the pointer layer.
-#define AUTO_SNIPING_ON_LAYER LAYER_POINTER
+void pointing_device_init_user(void) {
+    set_auto_mouse_layer(4); // only required if AUTO_MOUSE_DEFAULT_LAYER is not set to index of <mouse_layer>
+    set_auto_mouse_enable(true);         // always required before the auto mouse feature will work
+}
 
 #define ENCODER_MAP_KEY_DELAY 10
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
@@ -131,6 +129,49 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [4] = { ENCODER_CCW_CW(MS_WHLD, MS_WHLU) },
     [5] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) }
 };
+
+#ifdef OLED_DRIVER_ENABLE
+static void render_logo(void) {
+  static const char PROGMEM qmk_logo[] = {
+    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
+    0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
+    0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0};
+
+  oled_write_P(qmk_logo, false);
+}
+#endif
+
+#ifdef OLED_ENABLE
+bool oled_task_user(void) {
+    // Host Keyboard Layer Status
+    oled_write_P(PSTR("Layer: "), false);
+
+    switch (get_highest_layer(layer_state)) {
+        case 0:
+            oled_write_P(PSTR("Default\n"), false);
+            break;
+        case 1:
+            oled_write_P(PSTR("Number\n"), false);
+            break;
+        case 2:
+            oled_write_P(PSTR("Symbol\n"), false);
+            break;
+        case 3:
+            oled_write_P(PSTR("Navi\n"), false);
+            break;
+        case 4:
+            oled_write_P(PSTR("Pointer\n"), false);
+            break;
+        case 5:
+            oled_write_P(PSTR("Gaming\n"), false);
+            break;
+        default:
+            // Or use the write_ln shortcut over adding '\n' to the end of your string
+            oled_write_ln_P(PSTR("Undefined"), false);
+    }
+    return false;
+}
+#endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* LAYER_QWERTY 0: default layer
@@ -157,7 +198,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [1] = LAYOUT_ortho_10x5 (
         _______, _______, _______, _______, _______,  _______,       _______,       _______,       _______,       _______,
         KC_BSPC, KC_7,    KC_8,    KC_9,    KC_EQUAL, KC_BTN4,       KC_BTN5,       KC_VOLU,       KC_VOLD,       KC_MPLY,
-        KC_PAST, KC_4,    KC_5,    KC_6,    KC_PMNS,   _______,       OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI),
+        KC_PAST, KC_4,    KC_5,    KC_6,    KC_PMNS,  _______,       OSM(MOD_LSFT), OSM(MOD_LCTL), OSM(MOD_LALT), OSM(MOD_LGUI),
         KC_PSLS, KC_1,    KC_2,    KC_3,    KC_PPLS,  LALT(KC_PGUP), LALT(KC_PGDN), LSG(KC_S),     LALT(KC_F4),   (KC_TAB),
                           KC_0,    KC_PDOT, KC_MPLY,  TO(0),         _______,       LGUI(KC_TAB)
     ),

@@ -25,9 +25,14 @@
 #define ANALOG_JOYSTICK_X_AXIS_PIN GP28
 #define ANALOG_JOYSTICK_Y_AXIS_PIN GP29
 #define ANALOG_JOYSTICK_AUTO_AXIS
+#define JOYSTICK_AXIS_COUNT 2
 #define ANALOG_JOYSTICK_SPEED_REGULATOR 20 // lower makes it go faster
 #define ANALOG_JOYSTICK_READ_INTERVAL 10
 #define ANALOG_JOYSTICK_SPEED_MAX 2
+#define POINTING_DEVICE_DEBUG // debug messages will be shown in console
+
+#define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+#define AUTO_MOUSE_TIME 650 // time layer remains active after activation
 
 // Set the mouse settings to a comfortable speed/accuracy trade-off,
 // assuming a screen refresh rate of 60 Htz or higher
@@ -46,14 +51,9 @@
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 100
 
 // SSD1306 OLED display
-#define I2C_DRIVER I2CD1
-#define I2C1_SDA_PIN GP20
-#define I2C1_SCL_PIN GP21
-#define MY_I2C_ADDRESS (0x3C << 1)
+#define I2C_DRIVER I2CD0
 #define OLED_DISPLAY_128X64
+#define I2C0_SDA_PIN GP20 // I2C0 SDA
+#define I2C0_SCL_PIN GP21 // I2C0 SCL
+// #define MY_I2C_ADDRESS (0x3C << 1)
 #define OLED_TIMEOUT 30000
-
-// Automatically enable the pointer layer when moving the joystick.  See also:
-// - `AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS`
-// - `AUTO_POINTER_LAYER_TRIGGER_THRESHOLD`
-#define AUTO_POINTER_LAYER_TRIGGER_ENABLE
