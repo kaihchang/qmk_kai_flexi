@@ -31,8 +31,8 @@
 #define ANALOG_JOYSTICK_SPEED_MAX 2
 #define POINTING_DEVICE_DEBUG // debug messages will be shown in console
 
-#define POINTING_DEVICE_AUTO_MOUSE_ENABLE
-#define AUTO_MOUSE_TIME 650 // time layer remains active after activation
+// #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+// #define AUTO_MOUSE_TIME 650 // time layer remains active after activation
 
 // Set the mouse settings to a comfortable speed/accuracy trade-off,
 // assuming a screen refresh rate of 60 Htz or higher

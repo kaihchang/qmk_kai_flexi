@@ -108,17 +108,17 @@ tap_dance_action_t tap_dance_actions[] = {
     [TapHold_DOT]   = ACTION_TAP_DANCE_TAP_HOLD(KC_DOT, LGUI(KC_DOT))
 };
 
-void post_process_record_user(uint16_t keycode, keyrecord_t *record) { // for OSL() to work properly
-    if (IS_QK_ONE_SHOT_MOD(keycode) && is_oneshot_layer_active() && record->event.pressed) {
-        clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
-    }
-    return;
-}
+// void post_process_record_user(uint16_t keycode, keyrecord_t *record) { // for OSL() to work properly
+//     if (IS_QK_ONE_SHOT_MOD(keycode) && is_oneshot_layer_active() && record->event.pressed) {
+//         clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+//     }
+//     return;
+// }
 
-void pointing_device_init_user(void) {
-    set_auto_mouse_layer(4); // only required if AUTO_MOUSE_DEFAULT_LAYER is not set to index of <mouse_layer>
-    set_auto_mouse_enable(true);         // always required before the auto mouse feature will work
-}
+// void pointing_device_init_user(void) {
+//     set_auto_mouse_layer(4); // only required if AUTO_MOUSE_DEFAULT_LAYER is not set to index of <mouse_layer>
+//     set_auto_mouse_enable(true);         // always required before the auto mouse feature will work
+// }
 
 #define ENCODER_MAP_KEY_DELAY 10
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
@@ -188,11 +188,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘
      */
     [0] = LAYOUT_ortho_10x5 (
-        KC_1,         KC_2,         KC_3,         KC_4,         KC_5,    KC_6,    KC_7,         KC_8,         KC_9,         KC_0,
-        KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,    KC_Y,    KC_U,         KC_I,         KC_O,         KC_P,
-        LGUI_T(KC_A), LALT_T(KC_S), LCTL_T(KC_S), LSFT_T(KC_F), KC_G,    KC_H,    RSFT_T(KC_J), RCTL_T(KC_K), RALT_T(KC_L), RGUI_T(KC_QUOTE),
-        KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,    KC_N,    KC_M,         TD(TapHold_COMMA),  TD(TapHold_DOT),   KC_SLASH,
-                                    LT(3,KC_SPC), KC_LSFT,      KC_MPLY, KC_BSPC, LT(1,KC_ENT), LT(2,KC_DEL)
+        KC_1,         KC_2,         KC_3,         KC_4,         KC_5,    KC_6,          KC_7,         KC_8,              KC_9,            KC_0,
+        KC_Q,         KC_W,         KC_E,         KC_R,         KC_T,    KC_Y,          KC_U,         KC_I,              KC_O,            KC_P,
+        LGUI_T(KC_A), LALT_T(KC_S), KC_D,         LSFT_T(KC_F), KC_G,    KC_H,          RSFT_T(KC_J), KC_K,              RALT_T(KC_L),    RGUI_T(KC_QUOTE),
+        KC_Z,         KC_X,         KC_C,         KC_V,         KC_B,    KC_N,          KC_M,         TD(TapHold_COMMA), TD(TapHold_DOT), KC_SLASH,
+                                    LT(3,KC_SPC), KC_LSFT,      KC_MPLY, LT(4,KC_BSPC), LT(1,KC_ENT), LT(2,KC_DEL)
     ),
     // LAYER_NUM 1
     [1] = LAYOUT_ortho_10x5 (
